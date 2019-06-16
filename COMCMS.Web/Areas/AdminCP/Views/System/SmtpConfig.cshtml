@@ -1,0 +1,100 @@
+﻿@model COMCMS.Core.Models.SMTPConfigEntity
+@{
+    ViewBag.title = "编辑网站SMTP设置";
+}
+
+<div class="wrapper wrapper-content">
+    <div class="row">
+        <div class="tabs-container">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a data-toggle="tab" href="#tab-1" aria-expanded="true"> SMTP基本设置</a>
+                </li>
+                <li class="">
+                    <a data-toggle="tab" href="#tab-2" aria-expanded="false"> 发送邮件测试</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div id="tab-1" class="tab-pane active">
+                    <div class="panel-body">
+                        @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "editSMTPConfigForm", @class = "form-horizontal m-t" }))
+                        {
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">SMTP服务器：</label>
+                                <div class="col-sm-8">
+                                    <input id="SmtpHost" name="SmtpHost" minlength="2" maxlength="200" type="text" class="form-control" required aria-required="true" placeholder="设置 SMTP 服务器的地址" value="@Model.SmtpHost">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">SMTP 端口：</label>
+                                <div class="col-sm-8">
+                                    <input id="SmtpProt" name="SmtpProt" maxlength="5" type="number" class="form-control" placeholder="设置 SMTP 服务器的端口，默认为 25" value="@Model.SmtpProt">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">发信人邮件地址：</label>
+                                <div class="col-sm-8">
+                                    <input id="PostUserName" name="PostUserName" maxlength="250" type="text" class="form-control" placeholder="如果需要验证, 必须为本服务器的邮件地址。邮件地址中如果要包含用户名，格式为“username <user@domain.com>”" value="@Model.PostUserName">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">SMTP 身份验证用户名：</label>
+                                <div class="col-sm-8">
+                                    <input id="SmtpEmail" name="SmtpEmail" maxlength="100" type="text" class="form-control" placeholder="支持SMTP的Email帐号" value="@Model.SmtpEmail">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">SMTP身份验证密码：</label>
+                                <div class="col-sm-8">
+                                    <input id="SmtpEmailPwd" name="SmtpEmailPwd" maxlength="50" type="text" class="form-control" placeholder="帐号密码" value="@Model.SmtpEmailPwd">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">SSL 连接：</label>
+                                <div class="col-sm-8">
+                                    <label class="checkbox-inline i-checks">
+                                        <input type="checkbox" value="1" name="IsSSL" id="IsSSL" @(Model.IsSSL == 1 ? "checked = \"checked\"" : "")> SSL连接（一般如果端口是465 则勾选此选项，如果是25端口，则不用勾选此选项）
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <div class="col-sm-4 col-sm-offset-2">
+                                    <button class="btn btn-primary" type="submit"><i class="fa fa-save"></i> 提交 </button>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div id="tab-2" class="tab-pane">
+                    <div class="panel-body">
+                        <form asp-action="SendTestMail" asp-area="AdminCP" asp-controller="System" name="sendtestmailForm" id="sendtestmailForm" method="post" class="form-horizontal m-t">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">测试收件人：</label>
+                                <div class="col-sm-8">
+                                    <input id="txtEmail" name="txtEmail" maxlength="200" type="email" class="form-control" placeholder="请输入一个接收邮箱地址进行测试" value="">
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <div class="col-sm-4 col-sm-offset-2">
+                                    <button class="btn btn-primary" type="submit"><i class="fa fa-send"></i> 测试发信 </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<script>
+    $(function () {
+        DoPost("editSMTPConfigForm");
+        DoPost("sendtestmailForm");
+    })
+</script>
+

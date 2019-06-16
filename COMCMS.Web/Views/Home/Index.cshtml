@@ -1,0 +1,487 @@
+﻿@using COMCMS.Core.Models
+@{
+    Config cfg = ViewBag.cfg;
+    ViewBag.title = string.IsNullOrEmpty(cfg.IndexTitle) ? cfg.SiteName : cfg.IndexTitle;
+    ViewBag.keywords = cfg.Keyword;
+    ViewBag.description = cfg.Description;
+
+    Article about = ViewBag.about;
+
+    IList<Link> listLinks = Link.FindAll(Link._.KId == 1, Link._.Sequence.Asc(), null, 0, 0);
+
+    //处理bannr广告
+    var bannerPC = Ads.GetSlideAds(1);
+    var bannerMobile = Ads.GetSlideAds(2);
+}
+
+<!-- pc banner  -->
+<div class="banner normal">
+    <div class="swiper-container">
+        <div class="swiper-wrapper">
+            @foreach (var img in bannerPC)
+            {
+                <div class="swiper-slide">
+                    <a href="@img.link" title="@(img.alt)" style="background: url('@img.img') center top no-repeat; background-size:cover"></a>
+                </div>
+            }
+        </div>
+        <div class="cont">
+            <span class="banner-prev"></span>
+            <span class="banner-next"></span>
+        </div>
+    </div>
+</div>
+<!-- mb banner -->
+<div class="banner mobile">
+    <div class="swiper-container">
+        <div class="swiper-wrapper">
+            @foreach (var img in bannerPC)
+            {
+                <div class="swiper-slide">
+                    <a href="@img.link" title="@(img.alt)" style="background: url('@img.img') center top no-repeat; background-size: 100%;"></a>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<!-- 主体内容 -->
+<div class="content">
+    <!--电脑端 三大优势 -->
+    <div class="i-advantage normal">
+        <div class="cont">
+            <ul class="adv-list">
+                <li style="background: #3eb6ec;">
+                    <div class="adv-pic">
+                        <div class="pic-box">
+                            <i class="adv-ico1"></i>
+                        </div>
+                    </div>
+                    <div class="adv-text">
+                        <div class="text-box">
+                            <p>
+                                <span>基于Asp.net Core开发</span>
+                                <small>Development with Asp.net core</small>
+                            </p>
+                        </div>
+                    </div>
+                </li>
+                <li style="background: #19aaeb;">
+                    <div class="adv-pic">
+                        <div class="pic-box">
+                            <i class="adv-ico2"></i>
+                        </div>
+                    </div>
+                    <div class="adv-text">
+                        <div class="text-box">
+                            <p>
+                                <span>完全开源</span>
+                                <small>Open source</small>
+                            </p>
+                        </div>
+                    </div>
+                </li>
+                <li style="background: #00a1e9;">
+                    <div class="adv-pic" style="width: 140px; width: 1.4rem">
+                        <div class="pic-box" style="width: 140px; width: 1.4rem">
+                            <i class="adv-ico3"></i>
+                        </div>
+                    </div>
+                    <div class="adv-text">
+                        <div class="text-box">
+                            <p>
+                                <span>应用广泛</span>
+                                <small>Use everywhere</small>
+                            </p>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!--手机端 三大优势 -->
+    <div class="i-advantage mobile">
+        <div class="cont">
+            <ul class="adv-list">
+                <li style="background: #3eb6ec;">
+                    <div class="adv-pic">
+                        <div class="pic-box">
+                            <i class="adv-ico1"></i>
+                        </div>
+                    </div>
+                    <!-- 这一块里面的文字，客户可以后台更换 -->
+                    <div class="adv-text">
+                        <div class="text-box">
+                            <p>
+                                <span>基于Asp.net Core开发</span>
+                                <small>Development with Asp.net core</small>
+                            </p>
+                        </div>
+                    </div>
+                </li>
+                <li style="background: #19aaeb;">
+                    <div class="adv-pic">
+                        <div class="pic-box">
+                            <i class="adv-ico2"></i>
+                        </div>
+                    </div>
+                    <!-- 这一块里面的文字，客户可以后台更换 -->
+                    <div class="adv-text">
+                        <div class="text-box">
+                            <p>
+                                <span>完全开源</span>
+                                <small>Open source</small>
+                            </p>
+                        </div>
+                    </div>
+                </li>
+                <li style="background: #00a1e9;">
+                    <div class="adv-pic" style="width: 140px; width: 1.4rem">
+                        <div class="pic-box" style="width: 140px; width: 1.4rem">
+                            <i class="adv-ico3"></i>
+                        </div>
+                    </div>
+                    <!-- 这一块里面的文字，客户可以后台更换 -->
+                    <div class="adv-text">
+                        <div class="text-box">
+                            <p>
+                                <span>应用广泛</span>
+                                <small>Use everywhere</small>
+                            </p>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 公司简介 -->
+    <div class="i-au">
+        <div class="cont">
+            <div class="i-title">
+                <p>
+                    <span>公司简介</span>
+                    <small>company profile</small>
+                </p>
+            </div>
+
+            <div class="i-au-cont">
+                <div class="i-au-left">
+                    <div class="pic-box">
+                        <a href="/Article/detail/1" title="关于我们">
+                            <img src="@(about.Pic)" alt="关于我们">
+                        </a>
+                    </div>
+                </div>
+                <div class="i-au-right">
+                    <p>
+                        @(Utils.CutString(Utils.NoHTML(about.Content), 700))
+                    </p>
+                    <a href="/Article/detail/1" title="查看详情" class="read-d">查看详情</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 产品展示 -->
+    <div class="i-pro">
+        <div class="cont">
+            <div class="i-title">
+                <p>
+                    <span>产品展示</span>
+                    <small>product display</small>
+                </p>
+            </div>
+            @{ 
+                //获取前5个商品
+                IList<Product> listPorducts = Product.FindAll(null, null, null, 0, 5);
+            }
+            <div class="i-pro-cont" id="div1">
+                <ul class="i-pro-list">
+                    @foreach(var p in listPorducts)
+                    {
+                    <li>
+                        <a asp-controller="Product" asp-action="Detail" asp-route-id="@(p.Id)" title="@(p.Title)">
+                            <div class="i-pro-top">
+                                <div class="i-pro-pic">
+                                    <div class="pic-box">
+                                        <img src="@p.Pic" alt="@(p.Title)">
+                                    </div>
+                                </div>
+                                <div class="i-pro-hover">
+                                    <i></i>
+                                    <span>@(p.Title)</span>
+
+                                </div>
+                            </div>
+                            <div class="i-pro-text mobile">
+                                <span>@(p.Title)</span>
+                            </div>
+                        </a>
+                    </li>
+                    }
+
+                </ul>
+            </div>
+            <script type="text/javascript">
+                        function proShow() {
+                            mr = parseFloat($('.i-pro-list li').css('margin-right'));
+                            var odiv = document.getElementById('div1');
+                            var oul = odiv.getElementsByTagName('ul')[0];
+                            var ali = oul.getElementsByTagName('li');
+                            var spa = -2;
+                            oul.innerHTML = oul.innerHTML + oul.innerHTML;
+                            oul.style.width = (ali[0].offsetWidth + mr) * ali.length + 3 + 'px';
+                            function move() {
+                                if (oul.offsetLeft < -oul.offsetWidth / 2) {
+                                    oul.style.left = 0;
+                                }
+                                oul.style.left = oul.offsetLeft + spa + 'px';
+                            }
+                            var timer = setInterval(move, 30);
+
+                            odiv.onmousemove = function () { clearInterval(timer); }
+                            odiv.onmouseout = function () { timer = setInterval(move, 30) };
+                        }
+            </script>
+
+            <a asp-controller="Product" asp-action="Index" asp-route-id="1" title="查看更多" class="read-d">查看更多<i></i></a>
+        </div>
+    </div>
+
+    <!-- 新闻资讯 -->
+    <div class="i-news">
+        <div class="cont">
+            <div class="i-title">
+                <p>
+                    <span>新闻资讯</span>
+                    <small>news information</small>
+                </p>
+            </div>
+            <div class="i-news-cont">
+                <div class="i-news-btn">
+                    <ul class="i-btn-list">
+                        <li class="i-news-on">公司新闻</li>
+                        <li>行业资讯</li>
+                    </ul>
+                </div>
+                <div class="i-news-main">
+                    @{ 
+                        IList<Article> listNews1 = Article.FindAll(Article._.KId == 6, Article._.Sequence.Asc(), null, 0, 4);
+                    }
+                    <div class="i-news-box">
+                        <!-- 左边 -->
+                        @if (listNews1.Count > 0)
+                        {
+                            <div class="i-news-left">
+                                <a href="/article/detail/@listNews1[0].Id" title="@listNews1[0].Title">
+                                    <div class="i-news-pic">
+                                        <div class="pic-box">
+                                            <img src="@listNews1[0].Pic" alt="@listNews1[0].Title">
+                                        </div>
+                                    </div>
+                                    <div class="i-news-text">
+                                        <p class="i-news-title">
+                                            <span>@listNews1[0].Title</span>
+                                            <small>@listNews1[0].AddTime.ToString("yyyy-MM-dd")</small>
+                                        </p>
+                                        <p class="i-news-t"><span>@Utils.CutString(Utils.NoHTML(listNews1[0].Content),200)</span></p>
+                                        <b class="normal read-d">查看详情</b>
+                                    </div>
+                                </a>
+                            </div>
+                        }
+                        <!-- 右边 -->
+                            <div class="i-news-right">
+                                @if (listNews1.Count > 1)
+                                {
+                                    <ul class="i-news-list">
+                                        @for(int i=1; i < listNews1.Count; i++)
+                                        {
+                                        <li>
+                                            <a href="/article/detail/@listNews1[i].Id" title="@listNews1[i].Title">
+                                                <div class="i-news-time">
+                                                    <div class="pic-box">
+                                                        <p>
+                                                            <span>@listNews1[i].AddTime.ToString("dd")</span>
+                                                            <small>@listNews1[i].AddTime.ToString("yyyy-MM")</small>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div class="i-news-text2">
+                                                    <span>@listNews1[i].Title</span>
+                                                    <p>@Utils.CutString(Utils.NoHTML(listNews1[i].Content), 100)</p>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        }
+                                        
+                                    </ul>
+                                }
+
+                            </div>
+                    </div>
+                    <div class="i-news-box">
+                        <!-- 左边 -->
+                        @{
+                            IList<Article> listNews2 = Article.FindAll(Article._.KId == 7, Article._.Sequence.Asc(), null, 0, 4);
+                        }
+                        @if (listNews2.Count > 0)
+                        {
+                            <div class="i-news-left">
+                                <a href="/article/detail/@listNews2[0].Id" title="@listNews2[0].Title">
+                                    <div class="i-news-pic">
+                                        <div class="pic-box">
+                                            <img src="@listNews2[0].Pic" alt="@listNews2[0].Title">
+                                        </div>
+                                    </div>
+                                    <div class="i-news-text">
+                                        <p class="i-news-title">
+                                            <span>@listNews2[0].Title</span>
+                                            <small>@listNews2[0].AddTime.ToString("yyyy-MM-dd")</small>
+                                        </p>
+                                        <p class="i-news-t"><span>@Utils.CutString(Utils.NoHTML(listNews2[0].Content), 200)</span></p>
+                                        <b class="normal read-d">查看详情</b>
+                                    </div>
+                                </a>
+                            </div>
+                        }
+                        <!-- 右边 -->
+                            <div class="i-news-right">
+                                @if (listNews2.Count > 1)
+                                {
+                                    <ul class="i-news-list">
+                                        @for (int i = 1; i < listNews2.Count; i++)
+                                        {
+                                            <li>
+                                                <a href="/article/detail/@listNews2[i].Id" title="@listNews2[i].Title">
+                                                    <div class="i-news-time">
+                                                        <div class="pic-box">
+                                                            <p>
+                                                                <span>@listNews2[i].AddTime.ToString("dd")</span>
+                                                                <small>@listNews2[i].AddTime.ToString("yyyy-MM")</small>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="i-news-text2">
+                                                        <span>@listNews2[i].Title</span>
+                                                        <p>@Utils.CutString(Utils.NoHTML(listNews2[i].Content), 100)</p>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                        }
+                                    </ul>
+                                }
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+                    iNews();
+                    function iNews() {
+                        var index = $('.i-news-on').index();
+                        $('.i-news-box').eq(index).show();
+                        var num = $('.i-btn-list li').length;
+
+                        $('.i-btn-list').on('click', 'li', function () {
+                            index = $(this).index();
+                            for (var i = 0; i < num; i++) {
+                                $('.i-btn-list li').eq(i).removeClass('i-news-on');
+                                $('.i-news-box').eq(i).hide();
+                            }
+                            $(this).addClass('i-news-on');
+                            $('.i-news-box').eq(index).show();
+                        });
+                    }
+        </script>
+    </div>
+
+    <!-- 合作伙伴 -->
+    <div class="i-coop">
+        <div class="cont">
+            <div class="i-title">
+                <p>
+                    <span>合作伙伴</span>
+                    <small>cooperative partner</small>
+                </p>
+            </div>
+            <div class="i-coop-cont">
+                <!-- 链接到对应logo的公司官网 -->
+                <div class="swiper-cont">
+                    <div class="swiper-container normal">
+                        <div class="swiper-wrapper">
+                            @foreach (var l in listLinks)
+                            {
+                            <div class="swiper-slide">
+                                <ul>
+
+                                    <li>
+                                        <a href="@l.LinkURL" class="pic-box" title="@l.Title" target="_blank">
+                                            <img src="@l.Logo" alt="@l.Title">
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            }
+                        </div>
+                    </div>
+                    <div class="swiper-container mobile">
+                        <div class="swiper-wrapper">
+                            @foreach (var l in listLinks)
+                            {
+                                <div class="swiper-slide">
+                                    <ul>
+                                        <li>
+                                            <a href="@l.LinkURL" class="pic-box" title="@l.Title" target="_blank">
+                                                <img src="@l.Logo" alt="@l.Title">
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            }
+                           
+                        </div>
+                    </div>
+                </div>
+
+                <i class="coop-prev"></i>
+                <i class="coop-next"></i>
+            </div>
+
+            <script type="text/javascript">
+                        var mySwiper2;
+                        var mySwiper3;
+                        function coopSwiper() {
+                            if ($('#main').attr('class') === 'pc') {
+                                mySwiper3 = new Swiper('.i-coop-cont .normal', {
+                                    loop: true,
+                                    autoplay: 3000,
+                                    slidesPerView: 5,
+                                    nextButton: '.coop-next',
+                                    prevButton: '.coop-prev',
+                                });
+                            } else if ($('#main').attr('class') === 'mb') {
+                                mySwiper4 = new Swiper('.i-coop-cont .mobile', {
+                                    loop: true,
+                                    autoplay: 3000,
+                                    slidesPerView: 2,
+                                    nextButton: '.coop-next',
+                                    prevButton: '.coop-prev',
+                                });
+                            }
+                }
+                var mySwiper = new Swiper('.banner .swiper-container', {
+                    loop: true,
+
+                    // 如果需要前进后退按钮
+                    nextButton: '.banner-next',
+                    prevButton: '.banner-prev',
+                    autoplay: 3000,
+                })
+                $("#nav_0").addClass("nav-on");
+            </script>
+        </div>
+    </div>
+</div>
